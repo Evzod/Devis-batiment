@@ -15,5 +15,6 @@ public class MainDevis {
             nbEtage = Lire.i();
         } while (nbEtage <= 0);
         Batiment bat = new Batiment(nbEtage);
+        System.out.println("Le prix total du bâtiment est : " + bat.getprixTotal());
     }
 }

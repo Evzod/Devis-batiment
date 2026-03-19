@@ -267,20 +267,20 @@ public class Lire
         {
             x = 0;
             erreur = false;
-            System.out.print(" > Veuillez taper 0 ou 1 ");
+            System.out.println(" > Veuillez taper 0 ou 1 ");
             try
             {
                 x = Integer.parseInt(S());
             }
             catch(NumberFormatException e)
             {
-                System.out.print(" > Veuillez taper 0 ou 1 ");
+                System.out.println(" > Veuillez taper 0 ou 1 ");
                 erreur = true;
             }
 
             if(!erreur && x != 0 && x != 1)
             {
-                System.out.print(" > Veuillez taper 0 ou 1  ");
+                System.out.println(" > Veuillez taper 0 ou 1  ");
                 erreur = true;
             }
         } while(erreur);
