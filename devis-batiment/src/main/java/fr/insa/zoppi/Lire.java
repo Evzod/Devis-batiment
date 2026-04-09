@@ -1,3 +1,5 @@
+package fr.insa.zoppi;
+
 import java.io.*;
 
 /**

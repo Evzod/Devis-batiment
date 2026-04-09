@@ -1,0 +1,83 @@
+package fr.insa.zoppi;
+
+import javafx.application.Application;
+import javafx.scene.*;
+import javafx.stage.*;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import javafx.scene.text.Font;
+import javafx.geometry.Pos;
+
+/*
+ * JavaFX App
+ */
+public class App extends Application {
+
+    private Scene scene;
+    boolean validation;
+    Label message;
+
+    public static void main(String[] args) {
+        launch();
+        boucle();
+    }
+
+    @Override
+    public void start(Stage stage) {
+
+        message = new Label("Devis-bâtiment");
+        message.setFont(new Font(40));
+
+        TextField entree = new TextField();
+
+        Button valider = new Button("Valider");
+        valider.setOnAction(evt -> {
+            //message.setText("Ne fait rien pour l'instant");
+            validation = true;
+        });
+        
+        GridPane root = new GridPane();
+        root.setAlignment(Pos.CENTER);
+        root.setHgap(100);
+        root.setVgap(100);
+        root.add(message, 0, 0);
+        root.add(entree, 0, 1);
+        root.add(valider, 0, 2);//le centrer si possible
+
+        scene = new Scene(root, 650, 400);
+        stage.setScene(scene);
+        stage.setTitle("Devis-bâtiment");
+        stage.show();
+        
+        /*boolean boucle;
+        do {
+            newDevis();
+            System.out.println("Voulez vous faire un autre devis ?");
+            boucle = Lire.b();
+        } while (boucle);
+        System.out.println("Fin du programme");
+        System.exit(0);*/
+    }
+
+    private static void boucle() {
+        boolean boucle;
+        do {
+            newDevis();
+            System.out.println("Voulez vous faire un autre devis ?");
+            boucle = Lire.b();
+        } while (boucle);
+        System.out.println("Fin du programme");
+        System.exit(0);
+    }
+
+    private static void newDevis() {
+        int nbEtage;
+        System.out.println("Combien d'étages a le bâtiment ?");
+        do {
+            nbEtage = Lire.i();
+        } while (nbEtage <= 0);
+        Batiment bat = new Batiment(nbEtage);
+        System.out.println("Le prix total du bâtiment est : " + bat.getprixTotal());
+    }
+
+}

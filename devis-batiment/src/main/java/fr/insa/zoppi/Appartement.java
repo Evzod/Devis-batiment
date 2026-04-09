@@ -1,27 +1,33 @@
+package fr.insa.zoppi;
+
 import java.util.ArrayList;
 
-public class Etage {
+public class Appartement {
+    int numeroAppart;
     int numeroEtage;
-    long prixBase = 100000;
+    long prixBase = 50000;
     long prixTotal;
     ArrayList<Piece> pieces;
+    float hauteur;
 
-    public Etage(int numeroEtage) {
+    public Appartement(int numeroEtage, int numeroAppart, float hauteur) {
+        this.numeroAppart = numeroAppart;
         this.numeroEtage = numeroEtage;
+        this.hauteur = hauteur;
         prixTotal = prixBase;
-        System.out.println("Etage numéro " + numeroEtage + " créé");
+        System.out.println("Appartement numéro " + numeroAppart + " créé dans l'étage numéro " + numeroEtage);
         createPieces();
     }
 
     private void createPieces() {
-        System.out.println("Combien de pièces a l'étage numéro " + numeroEtage + " ?");
         int nbPieces;
         do {
+            System.out.println("Combien de pièces a l'appartement numéro " + numeroEtage + " ?");
             nbPieces = Lire.i();
         } while (nbPieces <= 0);
         pieces = new ArrayList<Piece>(nbPieces);
         for (int i = 0; i < nbPieces; i++) {
-            pieces.add(new Piece(numeroEtage, i+1));
+            pieces.add(new Piece(numeroEtage, numeroAppart, i+1, hauteur));
         }
     }
 
@@ -32,8 +38,5 @@ public class Etage {
 
     private void updatePrixTotal() {
         prixTotal = prixBase;
-        for (Piece piece : pieces) {
-            prixTotal += piece.getprixTotal();
-        }
     }
 }
