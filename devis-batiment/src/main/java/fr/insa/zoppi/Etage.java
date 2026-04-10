@@ -12,13 +12,13 @@ public class Etage {
     public Etage(int numeroEtage) {
         this.numeroEtage = numeroEtage;
         prixTotal = prixBase;
-        System.out.println("Etage numéro " + numeroEtage + " créé");
-        initHauteur();
-        createApparts();
+        App.message.setText("Etage numéro " + numeroEtage + " créé");
+        //initHauteur();
+        //createApparts();
     }
 
     private void createApparts() {
-        System.out.println("Combien d'appartements a l'étage numéro " + numeroEtage + " ?");
+        App.message.setText("Combien d'appartements a l'étage numéro " + numeroEtage + " ?");
         int nbApparts;
         do {
             nbApparts = Lire.i();
@@ -31,7 +31,7 @@ public class Etage {
 
     public void initHauteur() {
         do {
-            System.out.println("Quelle est la hauteur de l'étage numéro " + numeroEtage + " ?");
+            App.message.setText("Quelle est la hauteur de l'étage numéro " + numeroEtage + " ?");
             hauteur = Lire.f();
         } while (hauteur <= 0);
     }

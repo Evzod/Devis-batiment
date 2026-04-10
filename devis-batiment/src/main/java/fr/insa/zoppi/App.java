@@ -13,71 +13,59 @@ import javafx.geometry.Pos;
  */
 public class App extends Application {
 
+
     private Scene scene;
-    boolean validation;
-    Label message;
+    static Label message;
+    static Button bouton;
+    static TextField entree;
 
     public static void main(String[] args) {
         launch();
-        boucle();
     }
 
     @Override
     public void start(Stage stage) {
-
-        message = new Label("Devis-bâtiment");
+        message = new Label("Devis bâtiment");
         message.setFont(new Font(40));
 
-        TextField entree = new TextField();
+        entree = new TextField();
 
-        Button valider = new Button("Valider");
-        valider.setOnAction(evt -> {
-            //message.setText("Ne fait rien pour l'instant");
-            validation = true;
+        bouton = new Button("Valider");
+        bouton.setOnAction(evt -> {
+            newDevis1();
         });
-        
+
         GridPane root = new GridPane();
         root.setAlignment(Pos.CENTER);
         root.setHgap(100);
         root.setVgap(100);
         root.add(message, 0, 0);
         root.add(entree, 0, 1);
-        root.add(valider, 0, 2);//le centrer si possible
+        root.add(bouton, 0, 2);//le centrer si possible, jsp commet faire
 
         scene = new Scene(root, 650, 400);
         stage.setScene(scene);
         stage.setTitle("Devis-bâtiment");
         stage.show();
-        
-        /*boolean boucle;
-        do {
-            newDevis();
-            System.out.println("Voulez vous faire un autre devis ?");
-            boucle = Lire.b();
-        } while (boucle);
-        System.out.println("Fin du programme");
-        System.exit(0);*/
+
     }
 
-    private static void boucle() {
-        boolean boucle;
-        do {
-            newDevis();
-            System.out.println("Voulez vous faire un autre devis ?");
-            boucle = Lire.b();
-        } while (boucle);
-        System.out.println("Fin du programme");
-        System.exit(0);
+    private static void newDevis1() {
+        message.setText("Combien d'étages a le bâtiment ?");
+        bouton.setOnAction(evt -> newDevis2());
     }
 
-    private static void newDevis() {
-        int nbEtage;
-        System.out.println("Combien d'étages a le bâtiment ?");
-        do {
-            nbEtage = Lire.i();
-        } while (nbEtage <= 0);
+    private static void newDevis2() {
+        int nbEtage = 0;
+        try {
+            nbEtage = Integer.parseInt(entree.getText());
+        } catch (Exception e) {
+            message.setText("Erreur : entrez un entier");
+            return;
+        }
         Batiment bat = new Batiment(nbEtage);
-        System.out.println("Le prix total du bâtiment est : " + bat.getprixTotal());
+        message.setText("Le prix total du bâtiment est : " + bat.getprixTotal());
+        bouton.setOnAction(evt -> newDevis1());
     }
 
 }
