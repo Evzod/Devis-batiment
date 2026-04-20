@@ -13,7 +13,7 @@ public class Etage {
         this.numeroEtage = numeroEtage;
         prixTotal = prixBase;
         App.message.setText("Etage numéro " + numeroEtage + " créé");
-        //initHauteur();
+        initHauteur();
         //createApparts();
     }
 
@@ -30,9 +30,21 @@ public class Etage {
     }
 
     public void initHauteur() {
+        App.message.setText("Quelle est la hauteur de l'étage numéro " + numeroEtage + " ?");
+        hauteur = -1;
+        App.bouton.setOnAction(evt -> {
+            initHauteur2();
+        });
+    }
+
+    public void initHauteur2() {
         do {
-            App.message.setText("Quelle est la hauteur de l'étage numéro " + numeroEtage + " ?");
-            hauteur = Lire.f();
+            try {
+                hauteur = Float.parseFloat(App.entree.getText());
+            } catch (Exception e) {
+                App.message.setText("Erreur : entrez un entier");
+                return;
+            }
         } while (hauteur <= 0);
     }
 
@@ -43,8 +55,8 @@ public class Etage {
 
     private void updatePrixTotal() {
         prixTotal = prixBase;
-        for (Appartement appart : apparts) {
+        /*for (Appartement appart : apparts) {
             prixTotal += appart.getprixTotal();
-        }
+        }*/
     }
 }
