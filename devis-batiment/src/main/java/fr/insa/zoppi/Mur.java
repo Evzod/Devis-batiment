@@ -2,11 +2,13 @@ package fr.insa.zoppi;
 
 public class Mur extends Paroi {
     private Point p1, p2;
+    private float hauteur;
 
-    public Mur(Point p1, Point p2) {
+    public Mur(Point p1, Point p2, float hauteur) {
         super("mur");
         this.p1 = p1;
         this.p2 = p2;
+        this.hauteur = hauteur;
     }
 
     public void setPoint(Point p1, Point p2) {
@@ -24,5 +26,9 @@ public class Mur extends Paroi {
 
     public float longueur() {
         return p1.distance(p2);
+    }
+
+    public float surface() {
+        return this.longueur()*hauteur;
     }
 }
