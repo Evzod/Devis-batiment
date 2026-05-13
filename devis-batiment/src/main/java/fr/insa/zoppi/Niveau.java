@@ -1,5 +1,5 @@
 package fr.insa.zoppi;
 
-public class Piece {
+public class Niveau {
 
 }
