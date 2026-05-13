@@ -1,28 +1,19 @@
 package fr.insa.zoppi;
 
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Batiment {
-    ArrayList<Etage> etages;
-    long prixTotal;
+    private String idBatiment; // [cite: 104]
+    private String typeBatiment; // maison ou immeuble [cite: 105]
+    private int nbreNiveaux; // [cite: 105]
+    private List<Niveau> niveaux;
 
-    public Batiment(int nbEtage) {
-        etages = new ArrayList<Etage>(nbEtage);
-        for (int i = 0; i < nbEtage; i++) {
-            etages.add(new Etage(i+1));
-        }
+    public Batiment(String idBatiment, String typeBatiment) {
+        this.idBatiment = idBatiment;
+        this.typeBatiment = typeBatiment;
+        this.niveaux = new ArrayList<>();
     }
-
-    public long getprixTotal() {
-        updatePrixTotal();
-        return prixTotal;
-    }
-
-
-    private void updatePrixTotal() {
-        prixTotal = 0;
-        for (Etage etage : etages) {
-            prixTotal += etage.getprixTotal();
-        }
-    }
+    // Méthodes pour ajouter des niveaux...
 }

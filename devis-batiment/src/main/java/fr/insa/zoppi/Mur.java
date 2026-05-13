@@ -1,34 +1,35 @@
 package fr.insa.zoppi;
 
-public class Mur extends Paroi {
-    private Point p1, p2;
-    private float hauteur;
+import java.util.ArrayList;
+import java.util.List;
 
-    public Mur(Point p1, Point p2, float hauteur) {
-        super("mur");
-        this.p1 = p1;
-        this.p2 = p2;
-        this.hauteur = hauteur;
+public class Mur {
+    private String idMur; // [cite: 122]
+    
+    private Point debut; // [cite: 123]
+    private Point fin; // [cite: 123]
+    private List<Ouverture> ouvertures; // [cite: 124]
+    private List<Revetement> revetements; // Un mur peut comporter des revêtements [cite: 120]
+
+    public Mur(String idMur, Point debut, Point fin) {
+        this.idMur = idMur;
+        this.debut = debut;
+        this.fin = fin;
+        this.ouvertures = new ArrayList<>();
+        this.revetements = new ArrayList<>();
     }
 
-    public void setPoint(Point p1, Point p2) {
-        this.p1 = p1;
-        this.p2 = p2;
+    public void ajouterOuverture(Ouverture o) {
+        this.ouvertures.add(o);
     }
 
-    public Point getP1() {
-        return p1;
+    public void ajouterRevetement(Revetement r) {
+        this.revetements.add(r);
     }
-
-    public Point getP2() {
-        return p2;
-    }
-
-    public float longueur() {
-        return p1.distance(p2);
-    }
-
-    public float surface() {
-        return this.longueur()*hauteur;
+    
+    // Méthode pour calculer la longueur du mur (racine carrée de (x2-x1)^2 + (y2-y1)^2)
+    public double getLongueur() {
+        // A implémenter : calcul de la distance entre le point de début et de fin
+        return 0.0; 
     }
 }
