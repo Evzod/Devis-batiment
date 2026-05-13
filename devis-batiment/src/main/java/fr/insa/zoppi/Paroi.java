@@ -14,4 +14,9 @@ public class Paroi {
     public String getRevetement() {
         return revetement;
     }
+
+    /*
+    public float getSurface() {
+        return longueur * hauteur - ouverture;
+    }*/
 }
