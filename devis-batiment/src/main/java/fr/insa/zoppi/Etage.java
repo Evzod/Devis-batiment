@@ -7,7 +7,7 @@ public class Etage {
     long prixBase = 100000;
     long prixTotal;
     ArrayList<Appartement> apparts;
-    float hauteur;
+    float hauteur; 
 
     public Etage(int numeroEtage) {
         this.numeroEtage = numeroEtage;
