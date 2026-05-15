@@ -1,0 +1,62 @@
+package fr.insa.zoppi;
+
+import java.util.ArrayList;
+
+public class Etage {
+    int numeroEtage;
+    long prixBase = 100000;
+    long prixTotal;
+    ArrayList<Appartement> apparts;
+    float hauteur;
+
+    public Etage(int numeroEtage) {
+        this.numeroEtage = numeroEtage;
+        prixTotal = prixBase;
+        App.message.setText("Etage numéro " + numeroEtage + " créé");
+        initHauteur();
+        //createApparts();
+    }
+
+    private void createApparts() {
+        App.message.setText("Combien d'appartements a l'étage numéro " + numeroEtage + " ?");
+        int nbApparts;
+        do {
+            nbApparts = Lire.i();
+        } while (nbApparts <= 0);
+        apparts = new ArrayList<Appartement>(nbApparts);
+        for (int i = 0; i < nbApparts; i++) {
+            apparts.add(new Appartement(numeroEtage, i+1, hauteur));
+        }
+    }
+
+    public void initHauteur() {
+        App.message.setText("Quelle est la hauteur de l'étage numéro " + numeroEtage + " ?");
+        hauteur = -1;
+        App.bouton.setOnAction(evt -> {
+            initHauteur2();
+        });
+    }
+
+    public void initHauteur2() {
+        do {
+            try {
+                hauteur = Float.parseFloat(App.entree.getText());
+            } catch (Exception e) {
+                App.message.setText("Erreur : entrez un entier");
+                return;
+            }
+        } while (hauteur <= 0);
+    }
+
+    public long getprixTotal() {
+        updatePrixTotal();
+        return prixTotal;
+    }
+
+    private void updatePrixTotal() {
+        prixTotal = prixBase;
+        /*for (Appartement appart : apparts) {
+            prixTotal += appart.getprixTotal();
+        }*/
+    }
+}
