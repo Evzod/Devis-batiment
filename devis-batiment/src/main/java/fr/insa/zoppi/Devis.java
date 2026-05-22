@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javafx.scene.control.Button;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
+import java.io.*;
 
 public class Devis {
     ArrayList<Batiment> batiments;
@@ -35,4 +36,29 @@ public class Devis {
         });
         zoneFormulaire.getChildren().addAll(boutonImmeuble, boutonMaison);
     }
+
+    public void lireCatalogue() {
+        try {
+            BufferedReader catalogue=new BufferedReader(new FileReader("catalogue.txt"));
+            String lignelue;// Ligne lue depuis le fichier
+            System.out.println("Localité recherchée");
+            String recherche=Lire.S();
+
+            while((lignelue=catalogue.readLine())!=null) {
+                String[] mots = lignelue.split(";");
+                if (mots[3].equals(recherche)){
+                    System.out.println(lignelue);
+                }
+            }
+            catalogue.close();
+        }
+
+        catch(FileNotFoundException err) {
+            System.out.println( "Erreur :le fichier n'existe pas !\n "+err);
+        }
+        catch (IOException err) {
+            System.out.println(" Erreur :\n "+err);
+        }
+    }
+
 }
