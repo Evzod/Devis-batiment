@@ -4,9 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Appartement {
-    private String idAppart; // [cite: 111]
-    private int nbrePieces; // [cite: 112]
-    private List<Piece> pieces;
+    int numeroAppart;
+    int numeroEtage;
+    long prixBase = 50000;
+    long prixTotal;
+    ArrayList<Piece> pieces;
+    float hauteur;
 
     public Appartement(String idAppart) {
         this.idAppart = idAppart;

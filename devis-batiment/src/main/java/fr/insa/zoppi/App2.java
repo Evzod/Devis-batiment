@@ -21,11 +21,7 @@ public class App2 extends Application {
     @Override
     public void start(Stage stage) {
 
-        // ---------------------------------------------------
-        // 1. L'ARBRE : CRÉATION DES DEUX HIÉRARCHIES
-        // ---------------------------------------------------
-        
-        TreeItem<String> racineProjet = new TreeItem<>("Mon Projet de Construction");
+        TreeItem<String> racineProjet = new TreeItem<>("Devis bâtiment");
         racineProjet.setExpanded(true);
 
         // --- BRANCHE IMMEUBLE ---
@@ -46,7 +42,8 @@ public class App2 extends Application {
         etageMaison.getChildren().add(pieceMaison); // La pièce est DIRECTEMENT dans l'étage
         maison.getChildren().add(etageMaison);
 
-        racineProjet.getChildren().addAll(immeuble, maison);
+        racineProjet.getChildren().add(immeuble);
+        racineProjet.getChildren().add(maison);
         TreeView<String> arbre = new TreeView<>(racineProjet);
 
         // ---------------------------------------------------
@@ -57,9 +54,9 @@ public class App2 extends Application {
         zoneFormulaire.setPadding(new Insets(10));
         zoneFormulaire.getChildren().add(new Label("Sélectionnez un élément pour le configurer."));
 
-        arbre.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                afficherFormulaire(newVal.getValue());
+        arbre.getSelectionModel().selectedItemProperty().addListener((property, ancienClic, nouveauClic) -> {
+            if (nouveauClic != null) {
+                afficherFormulaire(nouveauClic.getValue());
             }
         });
 
@@ -89,17 +86,14 @@ public class App2 extends Application {
 
         SplitPane splitPane = new SplitPane();
         splitPane.getItems().addAll(menuGauche, zoneDessin);
-        splitPane.setDividerPositions(0.35);
+        splitPane.setDividerPositions(0.3);
 
-        Scene scene = new Scene(splitPane, 1100, 700);
+        Scene scene = new Scene(splitPane, 1200, 700);
         stage.setScene(scene);
-        stage.setTitle("Devis-Bâtiment - Arborescence Immeuble/Maison");
+        stage.setTitle("Devis-Bâtiment");
         stage.show();
     }
 
-    // ---------------------------------------------------
-    // 4. LE GÉNÉRATEUR DE FORMULAIRES
-    // ---------------------------------------------------
     private void afficherFormulaire(String nomElement) {
         zoneFormulaire.getChildren().clear();
 
@@ -158,21 +152,17 @@ public class App2 extends Application {
         return bloc;
     }
 
-    /**
-     * Crée une case à cocher. Si elle est cochée, le champ de texte en dessous est activé.
-     * Si elle est décochée, le champ de texte est grisé.
-     */
+
     private VBox creerBlocAvecCheckbox(String texteCheckbox, String texteChamp) {
         VBox bloc = new VBox(5);
         bloc.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5; -fx-padding: 5;");
         
         CheckBox checkBox = new CheckBox(texteCheckbox);
-        checkBox.setSelected(true); // Coché par défaut
+        checkBox.setSelected(true);
         
         TextField champRevetement = new TextField();
         champRevetement.setPromptText("Ex: Peinture, Carrelage...");
         
-        // LA MAGIE JAVAFX : On lie la désactivation du champ de texte à l'état inverse de la case à cocher
         champRevetement.disableProperty().bind(checkBox.selectedProperty().not());
 
         bloc.getChildren().addAll(checkBox, new Label(texteChamp), champRevetement);

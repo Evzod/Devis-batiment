@@ -13,7 +13,7 @@ import javafx.geometry.Pos;
 /*
  * JavaFX App
  */
-public class App extends Application {
+public class App_legacy extends Application {
 
 
     private Scene scene;
