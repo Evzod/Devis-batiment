@@ -23,6 +23,7 @@ public class App extends Application {
     public void start(Stage stage) {
         devis = new Devis();
         TreeItem<Object> racineProjet = new TreeItem<>(devis);
+        devis.setTreeItem(racineProjet);
         racineProjet.setExpanded(true);
         TreeView<Object> arbre = new TreeView<>(racineProjet);
         
@@ -69,9 +70,9 @@ public class App extends Application {
 
         if (objet instanceof Devis) {
             devis.formulaire(zoneFormulaire);
-        }/* else if (objet instanceof Batiment) {
+        } /*else if (objet instanceof Batiment) {
             ((Batiment) objet).formulaire(zoneFormulaire);
-        } else if (objet instanceof Appartement) {
+        } /*else if (objet instanceof Appartement) {
             ((Appartement) objet).formulaire(zoneFormulaire);
         } else if (objet instanceof Etage) {
             ((Etage) objet).formulaire(zoneFormulaire);

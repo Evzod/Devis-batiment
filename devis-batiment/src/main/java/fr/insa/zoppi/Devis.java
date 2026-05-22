@@ -27,11 +27,11 @@ public class Devis {
     public void formulaire(VBox zoneFormulaire) {
         Button boutonImmeuble = App.creerBouton("Ajouter un immeuble");
         boutonImmeuble.setOnAction(evt -> {
-            batiments.add(new Batiment("Immeuble"));
+            batiments.add(new Batiment(noeud, "Immeuble"));
         });
         Button boutonMaison = App.creerBouton("Ajouter une maison");
         boutonMaison.setOnAction(evt -> {
-            batiments.add(new Batiment("Maison"));
+            batiments.add(new Batiment(noeud, "Maison"));
         });
         zoneFormulaire.getChildren().addAll(boutonImmeuble, boutonMaison);
     }
