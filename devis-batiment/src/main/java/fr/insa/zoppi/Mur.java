@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Mur {
     private String idMur; // [cite: 122]
-    
     private Point debut; // [cite: 123]
     private Point fin; // [cite: 123]
     private List<Ouverture> ouvertures; // [cite: 124]
