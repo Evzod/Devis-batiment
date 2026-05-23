@@ -3,23 +3,24 @@ package fr.insa.zoppi;
 import java.util.*;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
 
-public class Batiment {
+public class Batiment extends ClasseGenerique{
     private String typeBatiment;
-    private int nbEtage = 1;
-    private ArrayList<Etage> etages;
+    ArrayList<Etage> etages;
     long prixTotal;
-    TreeItem<Object> noeud;
-    String nom = "MIA 2";
+    //TreeItem<Object> noeudParent;
 
-    public Batiment(TreeItem<Object> noeudParent, String typeBatiment) {
+    public Batiment(TreeItem<ClasseGenerique> noeudParent, String typeBatiment) {
+        //this.noeudParent = noeudParent;
         this.typeBatiment = typeBatiment;
+        nom = "Nouveau bâtiment";
         etages = new ArrayList<Etage>();
         noeud = new TreeItem<>(this);
         noeudParent.getChildren().add(noeud);
-
+        noeudParent.setExpanded(true);
     }
 
     @Override
@@ -28,10 +29,12 @@ public class Batiment {
     }
 
     public void formulaire(VBox zoneFormulaire) {
+        VBox boxNom = App.creerNom(this, zoneFormulaire);
         Button boutonEtage = App.creerBouton("Ajouter un étage");
         boutonEtage.setOnAction(evt -> {
-            etages.add(new Etage(noeud));
+            etages.add(new Etage(noeud, typeBatiment));
+            noeud.setExpanded(true);
         });
-        zoneFormulaire.getChildren().add(boutonEtage);
+        zoneFormulaire.getChildren().addAll(boutonEtage, boxNom);
     }
 }

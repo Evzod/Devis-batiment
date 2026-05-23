@@ -1,6 +1,6 @@
 package fr.insa.zoppi;
 
-public class Mur extends Paroi {
+public class Mur_legacy extends Paroi {
     private Point p1, p2;
     private float hauteur;
 

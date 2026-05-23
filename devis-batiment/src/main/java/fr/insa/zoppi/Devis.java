@@ -7,16 +7,17 @@ import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
 import java.io.*;
 
-public class Devis {
-    ArrayList<Batiment> batiments;
+public class Devis extends ClasseGenerique{
+    static ArrayList<Batiment> batiments;
     long prixDevis;
-    TreeItem<Object> noeud;
+
 
     public Devis() {
         batiments = new ArrayList<Batiment>();
+        nom = "Devis bâtiment";
     }
 
-    public void setTreeItem(TreeItem<Object> noeud) {
+    public void setTreeItem(TreeItem<ClasseGenerique> noeud) {
         this.noeud = noeud;
     }
 

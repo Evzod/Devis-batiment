@@ -2,18 +2,30 @@ package fr.insa.zoppi;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Control;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class App extends Application {
 
     private VBox zoneFormulaire;
-    private Devis devis;
+    private static Devis devis;
+    private static Pane zoneDessin;
+    public static int espacementVBox = 10;
+    public static double coeffDessin = 10;
 
     public static void main(String[] args) {
         launch(args);
@@ -22,12 +34,13 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         devis = new Devis();
-        TreeItem<Object> racineProjet = new TreeItem<>(devis);
+        TreeItem<ClasseGenerique> racineProjet = new TreeItem<>(devis);
         devis.setTreeItem(racineProjet);
         racineProjet.setExpanded(true);
-        TreeView<Object> arbre = new TreeView<>(racineProjet);
-        
-        zoneFormulaire = new VBox(15);
+        TreeView<ClasseGenerique> arbre = new TreeView<>(racineProjet);
+        arbre.setStyle("-fx-font-size: 13px");
+
+        zoneFormulaire = new VBox(25);
         zoneFormulaire.setPadding(new Insets(10));
         zoneFormulaire.getChildren().add(new Label("Sélectionnez un élément pour le configurer."));
 
@@ -37,7 +50,7 @@ public class App extends Application {
             }
         });
 
-        VBox menuGauche = new VBox(10);
+        VBox menuGauche = new VBox(espacementVBox);
         menuGauche.setPadding(new Insets(10));
         VBox.setVgrow(arbre, Priority.ALWAYS);
 
@@ -45,13 +58,13 @@ public class App extends Application {
         scrollFormulaire.setFitToWidth(true);
         scrollFormulaire.setStyle("-fx-background-color: transparent;");
         
-        menuGauche.getChildren().addAll(new Label("Explorateur"), arbre, scrollFormulaire);
+        menuGauche.getChildren().addAll(new Label("Explorateur"), arbre);
 
-        Pane zoneDessin = new Pane();
+        zoneDessin = new Pane();
         zoneDessin.setStyle("-fx-background-color: white;");
         SplitPane splitPane = new SplitPane();
-        splitPane.getItems().addAll(menuGauche, zoneDessin);
-        splitPane.setDividerPositions(0.3);
+        splitPane.getItems().addAll(menuGauche, scrollFormulaire, zoneDessin);
+        splitPane.setDividerPositions(0.25, 0.5);
 
         Scene scene = new Scene(splitPane, 1200, 700);
         stage.setScene(scene);
@@ -60,47 +73,90 @@ public class App extends Application {
 
     }
 
-    public void afficherFormulaire(Object objet) {
-        zoneFormulaire.getChildren().clear();
-
-        Label titre = new Label("Configuration : " + objet.toString());
-        titre.setFont(new Font("Arial", 16));
-        titre.setStyle("-fx-font-weight: bold;");
-        zoneFormulaire.getChildren().add(titre);
-
+    public void afficherFormulaire(ClasseGenerique objet) {
+        initFormulaire(zoneFormulaire, objet);
         if (objet instanceof Devis) {
             devis.formulaire(zoneFormulaire);
-        } /*else if (objet instanceof Batiment) {
+        } else if (objet instanceof Batiment) {
             ((Batiment) objet).formulaire(zoneFormulaire);
-        } /*else if (objet instanceof Appartement) {
+        } else if (objet instanceof Appartement) {
             ((Appartement) objet).formulaire(zoneFormulaire);
         } else if (objet instanceof Etage) {
             ((Etage) objet).formulaire(zoneFormulaire);
         } else if (objet instanceof Piece) {
             ((Piece) objet).formulaire(zoneFormulaire);
-        }*/
+        }
+    }
 
+    public static void initFormulaire(VBox zone, ClasseGenerique objet) {
+        zone.getChildren().clear();
+        Label titre = new Label("Configuration : " + objet.nom);
+        titre.setWrapText(true);
+        titre.setFont(new Font("Arial", 16));
+        titre.setStyle("-fx-font-weight: bold;");
+        zone.getChildren().add(titre);
     }
     
-    public static VBox creerQuestion(String texteQuestion, Control champReponse) {
-        VBox bloc = new VBox(2);
-        bloc.getChildren().addAll(new Label(texteQuestion), champReponse);
+    public static VBox creerQuestion(String texteQuestion, Control champReponse, Button valider) {
+        VBox bloc = new VBox(espacementVBox);
+        bloc.getChildren().addAll(new Label(texteQuestion), champReponse, valider);
         return bloc;
     }
 
-    public static VBox creerCheckbox(String texteCheckbox, String texteChamp) {
-        VBox bloc = new VBox(5);
+    public static VBox creerCheckbox(String texteCheckbox, TextField champRevetement, Button valider) {
+        VBox bloc = new VBox(espacementVBox);
         bloc.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5; -fx-padding: 5;");
         
         CheckBox checkBox = new CheckBox(texteCheckbox);
-        checkBox.setSelected(true);
-        
-        TextField champRevetement = new TextField();
-        champRevetement.setPromptText("Ex: Peinture, Carrelage...");
+        checkBox.setSelected(!champRevetement.getText().isBlank());
         
         champRevetement.disableProperty().bind(checkBox.selectedProperty().not());
+        valider.disableProperty().bind(checkBox.selectedProperty().not());
 
-        bloc.getChildren().addAll(checkBox, new Label(texteChamp), champRevetement);
+        bloc.getChildren().addAll(checkBox, new Label("Revêtement :"), champRevetement, valider);
+        return bloc;
+    }
+
+    public static VBox creerNom(ClasseGenerique objet, VBox zoneFormulaire) {
+        TextField fieldNom = new TextField(objet.nom);
+        Button boutonNom = new Button("Valider");
+        boutonNom.setOnAction(evt -> {
+            objet.nom = fieldNom.getText();
+            objet.noeud.setValue(null);
+            objet.noeud.setValue(objet);
+            App.initFormulaire(zoneFormulaire, objet);
+            objet.formulaire(zoneFormulaire);
+        });
+        return App.creerQuestion("Nom de l'élément", fieldNom, boutonNom);
+    }
+
+
+    public static VBox creerCoordo(ClasseGeometrique objet, VBox zoneFormulaire) {
+        TextField fieldX1 = new TextField(Double.toString(objet.x1));
+        fieldX1.setPrefWidth(60);
+        TextField fieldY1 = new TextField(Double.toString(objet.y1));
+        fieldY1.setPrefWidth(60);
+        TextField fieldX2 = new TextField(Double.toString(objet.x2));
+        fieldX2.setPrefWidth(60);
+        TextField fieldY2 = new TextField(Double.toString(objet.y2));
+        fieldY2.setPrefWidth(60);
+
+        HBox ligne1 = new HBox(10, new Label("Coin 1 - X :"), fieldX1, new Label("Y :"), fieldY1);
+        HBox ligne2 = new HBox(10, new Label("Coin 2 - X :"), fieldX2, new Label("Y :"), fieldY2);
+
+        Button boutonValider = App.creerBouton("Valider");
+        
+        boutonValider.setOnAction(evt -> {
+            objet.x1 = Double.parseDouble(fieldX1.getText());
+            objet.y1 = Double.parseDouble(fieldY1.getText());
+            objet.x2 = Double.parseDouble(fieldX2.getText());
+            objet.y2 = Double.parseDouble(fieldY2.getText());
+        });
+
+        VBox bloc = new VBox(espacementVBox);
+        bloc.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5; -fx-padding: 10;");
+        bloc.getChildren().addAll(new Label("Coordonnées de l'élément"), ligne1, ligne2, boutonValider);
+
         return bloc;
     }
 
@@ -108,6 +164,33 @@ public class App extends Application {
         Button bouton = new Button(texteBouton);
         //Actions pour la mise en forme du bouton
         return bouton;
+    }
+
+    public static void updateDessin(Etage etage) {
+        if (etage.apparts!=null) {
+            for (Appartement appart : etage.apparts) {
+                for (Piece piece : appart.pieces) {
+                    piece.dessiner(zoneDessin);
+                }
+                appart.dessiner(zoneDessin);
+            }
+        } else if (etage.pieces!=null) {
+            for (Piece piece : etage.pieces) {
+                piece.dessiner(zoneDessin);
+            }
+        } else {
+            System.out.println("pas bon");
+        }
+        etage.dessiner(zoneDessin);
+    }
+
+    public static Rectangle rectangle(double x1, double y1, double x2, double y2) {
+        double startX = (zoneDessin.getWidth()/2) + coeffDessin*Math.min(x1, x2);
+        double startY = (zoneDessin.getHeight()/2) + coeffDessin*Math.min(y1, y2);
+        double largeur = coeffDessin*Math.abs(x2 - x1);
+        double hauteur = coeffDessin*Math.abs(y2 - y1);
+
+        return new Rectangle(startX, startY, largeur, hauteur);
     }
 
 }

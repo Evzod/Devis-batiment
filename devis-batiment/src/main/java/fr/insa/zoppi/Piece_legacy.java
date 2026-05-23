@@ -2,7 +2,7 @@ package fr.insa.zoppi;
 
 import java.util.ArrayList;
 
-public class Piece {
+public class Piece_legacy {
     int numeroPiece;
     int numeroEtage;
     long prixBase = 20000;
@@ -12,7 +12,7 @@ public class Piece {
     Paroi plafond, sol;
 
 
-    public Piece(int numeroEtage, int numeroAppart, int numeroPiece, float hauteur) {
+    public Piece_legacy(int numeroEtage, int numeroAppart, int numeroPiece, float hauteur) {
         this.numeroPiece = numeroPiece;
         this.numeroEtage = numeroEtage;
         this.hauteur = hauteur;
