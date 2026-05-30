@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -39,7 +40,20 @@ public class Devis extends ClasseGenerique{
             batiments.add(new Batiment(noeud, "Maison"));
         });
 
-        Button b
+        Button boutonSauvegarde = App.creerBouton("Sauvegarder le devis");
+        boutonSauvegarde.setOnAction(evt -> {
+            App.sauvegarderProjet(this, "sauvegarde_devis");
+        });
+
+
+        TextField fieldCharge = new TextField();
+        fieldCharge.setPromptText("Nom du fichier");
+        Button boutonCharge = App.creerBouton("Charger");
+        boutonCharge.setOnAction(evt -> {
+            App.chargerProjet(fieldCharge.getText());
+        });
+        VBox boxCharge = App.creerQuestion("Charger un devis", fieldCharge, boutonCharge);
+
         
         Button boutonPrix = App.creerBouton("Calculer le prix total");
         Label labelPrix = new Label("......");
@@ -48,7 +62,7 @@ public class Devis extends ClasseGenerique{
             labelPrix.setText(Double.toString(this.calculPrix()));
         });
 
-        zoneFormulaire.getChildren().addAll(boutonImmeuble, boutonMaison, boutonPrix, new Label("Prix total : "), boxPrix);
+        zoneFormulaire.getChildren().addAll(boutonImmeuble, boutonMaison, boutonSauvegarde, boutonCharge, boutonPrix, new Label("Prix total : "), boxPrix);
     }
 
     private double calculPrix() {

@@ -33,6 +33,8 @@ public class App extends Application {
     public static int espacementVBox = 10;
     public static double coeffDessin = 10;
     private static Etage etagePrecedent;
+    private static TreeItem<ClasseGenerique> racineProjet;
+    private static TreeView<ClasseGenerique> arbre;
 
     public static void main(String[] args) {
         launch(args);
@@ -41,10 +43,10 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         devis = new Devis();
-        TreeItem<ClasseGenerique> racineProjet = new TreeItem<>(devis);
+        racineProjet = new TreeItem<>(devis);
         devis.setTreeItem(racineProjet);
         racineProjet.setExpanded(true);
-        TreeView<ClasseGenerique> arbre = new TreeView<>(racineProjet);
+        arbre = new TreeView<>(racineProjet);
         arbre.setStyle("-fx-font-size: 13px");
 
         zoneFormulaire = new VBox(25);
@@ -211,19 +213,18 @@ public class App extends Application {
     public static void sauvegarderProjet(Devis devis, String cheminFichier) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(cheminFichier))) {
             oos.writeObject(devis); 
-            System.out.println("Projet sauvegardé avec succès !");
         } catch (IOException e) {
             System.err.println("Erreur lors de la sauvegarde : " + e.getMessage());
         }
     }
     
-    public static Devis chargerProjet(String cheminFichier) {
+    public static void chargerProjet(String cheminFichier) {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(cheminFichier))) {
-            return (Devis) ois.readObject(); 
-        } catch (IOException | ClassNotFoundException e) {
+            Devis devis = (Devis) ois.readObject(); 
+        } catch (Exception e) {
             System.err.println("Erreur lors du chargement : " + e.getMessage());
-            return null;
-        }
+            return;
+        }        
     }
     
 }
