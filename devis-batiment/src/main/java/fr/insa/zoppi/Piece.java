@@ -19,7 +19,6 @@ public class Piece extends ClasseGeometrique{
     boolean plafond = true;
     String revetementPlafond = "";
     private Mur murs[];
-    Etage etage;
 
     public Piece(TreeItem<ClasseGenerique> noeudParent, Etage etage) {
         this.etage = etage;

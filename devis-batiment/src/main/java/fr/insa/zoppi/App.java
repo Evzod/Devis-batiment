@@ -26,6 +26,7 @@ public class App extends Application {
     private static Pane zoneDessin;
     public static int espacementVBox = 10;
     public static double coeffDessin = 10;
+    private static Etage etagePrecedent;
 
     public static void main(String[] args) {
         launch(args);
@@ -151,6 +152,7 @@ public class App extends Application {
             objet.y1 = Double.parseDouble(fieldY1.getText());
             objet.x2 = Double.parseDouble(fieldX2.getText());
             objet.y2 = Double.parseDouble(fieldY2.getText());
+            App.updateDessin(objet.etage);
         });
 
         VBox bloc = new VBox(espacementVBox);
@@ -167,6 +169,12 @@ public class App extends Application {
     }
 
     public static void updateDessin(Etage etage) {
+        zoneDessin.getChildren().clear();
+        if (etage == null) {
+            etage = etagePrecedent;
+        } else {
+            etagePrecedent = etage;
+        }
         if (etage.apparts!=null) {
             for (Appartement appart : etage.apparts) {
                 for (Piece piece : appart.pieces) {

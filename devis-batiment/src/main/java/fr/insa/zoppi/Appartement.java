@@ -12,7 +12,6 @@ import javafx.scene.shape.Rectangle;
 public class Appartement extends ClasseGeometrique{
     ArrayList<Piece> pieces;
     double hauteur;
-    Etage etage;
 
     public Appartement(TreeItem<ClasseGenerique> noeudParent, Etage etage) {
         this.etage = etage;

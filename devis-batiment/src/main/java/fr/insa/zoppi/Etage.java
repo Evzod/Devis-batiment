@@ -34,7 +34,8 @@ public class Etage extends ClasseGeometrique{
         y1 = -10;
         x2 = 15;
         y2 = 10;
-        App.updateDessin(this);
+        etage = this;
+        App.updateDessin(etage);
     }
 
     @Override
@@ -67,6 +68,7 @@ public class Etage extends ClasseGeometrique{
             });
         }
         zoneFormulaire.getChildren().addAll(bouton, boxCoordo, boxNom, boxHauteur);
+        App.updateDessin(this);
     }
 
     @Override
