@@ -15,7 +15,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 public class Piece extends ClasseGeometrique{
-    private String usage;
+    private String usage = "";
     boolean plafond = true;
     String revetementPlafond = "";
     private Mur murs[];
@@ -34,7 +34,6 @@ public class Piece extends ClasseGeometrique{
         murs[1] = new Mur(x2, y1, x2, y2);//droite
         murs[2] = new Mur(x1, y2, x2, y2);//bas
         murs[3] = new Mur(x1, y1, x1, y2);//gauche
-        App.updateDessin(etage);
     }
     
     @Override
@@ -45,8 +44,15 @@ public class Piece extends ClasseGeometrique{
     public void formulaire(VBox zoneFormulaire) {
         VBox boxCoordo = App.creerCoordo(this, zoneFormulaire);
         VBox boxNom = App.creerNom(this, zoneFormulaire);
+
+        TextField fieldUsage = new TextField(usage);
+        Button boutonUsage = App.creerBouton("Valider");
+        boutonUsage.setOnAction(evt -> {
+            this.usage = fieldUsage.getText();
+        });
+        VBox boxUsage = App.creerQuestion("Usage de la pièce :", fieldUsage, boutonUsage);
         
-        zoneFormulaire.getChildren().addAll(boxCoordo, boxNom);
+        zoneFormulaire.getChildren().addAll(boxCoordo, boxNom, boxUsage);
         
         for (int i=0; i<4; i++) {
             final int index = i;
@@ -113,5 +119,12 @@ public class Piece extends ClasseGeometrique{
         rect.setStroke(Color.BLACK);
         rect.setStrokeWidth(0.2*App.coeffDessin);
         zoneDessin.getChildren().add(rect);
+    }
+
+    public double getPrix() {
+        double prix = 0;
+        
+
+        return prix;
     }
 }

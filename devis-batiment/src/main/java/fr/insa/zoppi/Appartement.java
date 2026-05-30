@@ -24,7 +24,6 @@ public class Appartement extends ClasseGeometrique{
         y1 = -7;
         x2 = 10;
         y2 = 7;
-        App.updateDessin(etage);
     }
 
     @Override
@@ -40,6 +39,7 @@ public class Appartement extends ClasseGeometrique{
             boutonPiece.setOnAction(evt -> {
                 pieces.add(new Piece(noeud, etage));
                 noeud.setExpanded(true);
+                App.updateDessin(etage);
             });
         zoneFormulaire.getChildren().addAll(boutonPiece, boxCoordo, boxNom);
     }
@@ -49,8 +49,8 @@ public class Appartement extends ClasseGeometrique{
         Rectangle rect = App.rectangle(x1, y1, x2, y2);
         rect.setFill(Color.TRANSPARENT);
         rect.setStroke(Color.BLACK);
-        rect.setStrokeWidth(0.4*App.coeffDessin);
+        rect.setStrokeWidth(0.25*App.coeffDessin);
         zoneDessin.getChildren().add(rect);
-        rect.getStrokeDashArray().addAll(10.0, 10.0);
+        rect.getStrokeDashArray().addAll(5.0, 5.0);
     }
 }

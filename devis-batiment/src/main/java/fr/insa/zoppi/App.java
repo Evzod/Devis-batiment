@@ -27,6 +27,7 @@ public class App extends Application {
     public static int espacementVBox = 10;
     public static double coeffDessin = 10;
     private static Etage etagePrecedent;
+    public static Catalogue catalogue;
 
     public static void main(String[] args) {
         launch(args);
@@ -35,6 +36,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         devis = new Devis();
+        catalogue = new Catalogue();
         TreeItem<ClasseGenerique> racineProjet = new TreeItem<>(devis);
         devis.setTreeItem(racineProjet);
         racineProjet.setExpanded(true);
@@ -67,7 +69,7 @@ public class App extends Application {
         splitPane.getItems().addAll(menuGauche, scrollFormulaire, zoneDessin);
         splitPane.setDividerPositions(0.25, 0.5);
 
-        Scene scene = new Scene(splitPane, 1200, 700);
+        Scene scene = new Scene(splitPane, 1400, 750);
         stage.setScene(scene);
         stage.setTitle("Devis-Bâtiment");
         stage.show();

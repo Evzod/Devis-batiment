@@ -24,16 +24,16 @@ public class Etage extends ClasseGeometrique{
             pieces = new ArrayList<Piece>();
             this.isImmeuble = false; //false pour maison
         } else {
-            System.out.println("ni un immeuble ni une maison...s");
+            System.out.println("ni un immeuble ni une maison...");
         }
         noeud = new TreeItem<ClasseGenerique>(this);
         noeudParent.getChildren().add(noeud);
         noeudParent.setExpanded(true);
         nom = "Nouvel Étage";
-        x1 = -15;
-        y1 = -10;
-        x2 = 15;
-        y2 = 10;
+        x1 = -25;
+        y1 = -25;
+        x2 = 25;
+        y2 = 25;
         etage = this;
         App.updateDessin(etage);
     }
@@ -59,12 +59,14 @@ public class Etage extends ClasseGeometrique{
             bouton.setOnAction(evt -> {
                 apparts.add(new Appartement(noeud, this));
                 noeud.setExpanded(true);
+                App.updateDessin(this);
             });
         } else {
             bouton = App.creerBouton("Ajouter une pièce");
             bouton.setOnAction(evt -> {
                 pieces.add(new Piece(noeud, this));
                 noeud.setExpanded(true);
+                App.updateDessin(this);
             });
         }
         zoneFormulaire.getChildren().addAll(bouton, boxCoordo, boxNom, boxHauteur);

@@ -3,6 +3,7 @@ package fr.insa.zoppi;
 import java.util.ArrayList;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
 import java.io.*;
@@ -35,31 +36,33 @@ public class Devis extends ClasseGenerique{
         boutonMaison.setOnAction(evt -> {
             batiments.add(new Batiment(noeud, "Maison"));
         });
-        zoneFormulaire.getChildren().addAll(boutonImmeuble, boutonMaison);
+        
+        Button boutonPrix = App.creerBouton("Calculer le prix total");
+        Label labelPrix = new Label();
+        boutonPrix.setOnAction(evt -> {
+            labelPrix.setText(Double.toString(this.calculPrix()));
+        });
+
+        zoneFormulaire.getChildren().addAll(boutonImmeuble, boutonMaison, boutonPrix, labelPrix);
     }
 
-    public void lireCatalogue() {
-        try {
-            BufferedReader catalogue=new BufferedReader(new FileReader("catalogue.txt"));
-            String lignelue;// Ligne lue depuis le fichier
-            System.out.println("Localité recherchée");
-            String recherche=Lire.S();
-
-            while((lignelue=catalogue.readLine())!=null) {
-                String[] mots = lignelue.split(";");
-                if (mots[3].equals(recherche)){
-                    System.out.println(lignelue);
+    private double calculPrix() {
+        double prix = 0;
+        for (Batiment batiment : batiments) {
+            for (Etage etage : batiment.etages) {
+                if (etage.apparts!=null) {
+                    for (Appartement appart : etage.apparts) {
+                        for (Piece piece : appart.pieces) {
+                            prix += piece.getPrix();
+                        }
+                    }
+                } else if (etage.pieces!=null) {
+                    for (Piece piece : etage.pieces) {
+                        prix += piece.getPrix();
+                    }
                 }
             }
-            catalogue.close();
-        }
-
-        catch(FileNotFoundException err) {
-            System.out.println( "Erreur :le fichier n'existe pas !\n "+err);
-        }
-        catch (IOException err) {
-            System.out.println(" Erreur :\n "+err);
-        }
+        }        
+        return prix;
     }
-
 }
