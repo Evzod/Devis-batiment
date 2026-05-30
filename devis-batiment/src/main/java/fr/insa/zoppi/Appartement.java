@@ -51,6 +51,6 @@ public class Appartement extends ClasseGeometrique{
         rect.setStroke(Color.BLACK);
         rect.setStrokeWidth(0.25*App.coeffDessin);
         zoneDessin.getChildren().add(rect);
-        rect.getStrokeDashArray().addAll(5.0, 5.0);
+        rect.getStrokeDashArray().addAll(5.0, 10.0);
     }
 }

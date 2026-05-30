@@ -1,8 +1,5 @@
 package fr.insa.zoppi;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -18,6 +15,7 @@ public class Piece extends ClasseGeometrique{
     private String usage = "";
     boolean plafond = true;
     String revetementPlafond = "";
+    String revetementSol = "";
     private Mur murs[];
 
     public Piece(TreeItem<ClasseGenerique> noeudParent, Etage etage) {
@@ -30,10 +28,10 @@ public class Piece extends ClasseGeometrique{
         y1 = -5;
         x2 = 5;
         y2 = 5;
-        murs[0] = new Mur(x1, y1, x2, y1);//haut
-        murs[1] = new Mur(x2, y1, x2, y2);//droite
-        murs[2] = new Mur(x1, y2, x2, y2);//bas
-        murs[3] = new Mur(x1, y1, x1, y2);//gauche
+        murs[0] = new Mur(etage.hauteur, x1, y1, x2, y1);//haut
+        murs[1] = new Mur(etage.hauteur, x2, y1, x2, y2);//droite
+        murs[2] = new Mur(etage.hauteur, x1, y2, x2, y2);//bas
+        murs[3] = new Mur(etage.hauteur, x1, y1, x1, y2);//gauche
     }
     
     @Override
@@ -98,8 +96,14 @@ public class Piece extends ClasseGeometrique{
         boxPlafond.visibleProperty().bind(checkPlafond.selectedProperty());
         boxPlafond.managedProperty().bind(checkPlafond.selectedProperty());
 
-        zoneFormulaire.getChildren().addAll(checkPlafond, boxPlafond);
-        
+        TextField fieldRevetementSol = new TextField(revetementSol);
+        Button boutonRevetementSol = App.creerBouton("Valider");
+        boutonRevetementSol.setOnAction(evt -> {
+            revetementSol = fieldRevetementSol.getText();
+        });
+        VBox boxSol = App.creerCheckbox("Revêtement sur le sol ?", fieldRevetementSol, boutonRevetementSol);
+
+        zoneFormulaire.getChildren().addAll(boxSol, checkPlafond, boxPlafond);
     }
 
     public VBox boxRevetementMur(int i) {
@@ -123,8 +127,14 @@ public class Piece extends ClasseGeometrique{
 
     public double getPrix() {
         double prix = 0;
-        
-
+        double aire = Math.abs((x1-x2)*(y1-y2));
+        prix += Devis.prixRevetement(aire , revetementSol);
+        prix += Devis.prixRevetement(aire, revetementPlafond);
+        for (int i=0; i<4; i++) {
+            prix += murs[i].getPrix();
+        }
         return prix;
     }
+
+    
 }

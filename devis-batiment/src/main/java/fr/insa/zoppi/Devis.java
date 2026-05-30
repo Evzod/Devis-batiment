@@ -5,17 +5,19 @@ import java.util.ArrayList;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TreeItem;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import java.io.*;
 
 public class Devis extends ClasseGenerique{
     static ArrayList<Batiment> batiments;
     long prixDevis;
+    private static Catalogue catalogue;
 
 
     public Devis() {
         batiments = new ArrayList<Batiment>();
         nom = "Devis bâtiment";
+        catalogue = new Catalogue();
     }
 
     public void setTreeItem(TreeItem<ClasseGenerique> noeud) {
@@ -36,14 +38,17 @@ public class Devis extends ClasseGenerique{
         boutonMaison.setOnAction(evt -> {
             batiments.add(new Batiment(noeud, "Maison"));
         });
+
+        Button b
         
         Button boutonPrix = App.creerBouton("Calculer le prix total");
-        Label labelPrix = new Label();
+        Label labelPrix = new Label("......");
+        HBox boxPrix = new HBox(labelPrix, new Label("   €"));
         boutonPrix.setOnAction(evt -> {
             labelPrix.setText(Double.toString(this.calculPrix()));
         });
 
-        zoneFormulaire.getChildren().addAll(boutonImmeuble, boutonMaison, boutonPrix, labelPrix);
+        zoneFormulaire.getChildren().addAll(boutonImmeuble, boutonMaison, boutonPrix, new Label("Prix total : "), boxPrix);
     }
 
     private double calculPrix() {
@@ -64,5 +69,16 @@ public class Devis extends ClasseGenerique{
             }
         }        
         return prix;
+    }
+
+    public static double prixRevetement(double surface, String revetement) {
+        double prixUnitaire = 25; //prix standard
+        for (int i=1; i<=18; i++) {
+            if (catalogue.getRevetement(i).getNom().equals(revetement)) {
+                prixUnitaire = catalogue.getRevetement(i).getPrixUnitaire();
+                break;
+            }
+        }
+        return surface*prixUnitaire;
     }
 }

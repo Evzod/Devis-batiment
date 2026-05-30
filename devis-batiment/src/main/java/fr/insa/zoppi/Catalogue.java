@@ -10,7 +10,7 @@ public class Catalogue {
 
     public Catalogue() {
         listeRevetements = new HashMap<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("catalogue.txt"))) {
+        try (BufferedReader br = new BufferedReader(new FileReader("devis-batiment\\src\\main\\java\\fr\\insa\\zoppi\\catalogue.txt"))) {
             String ligne;
             boolean premiereLigne = true;
 
@@ -32,7 +32,10 @@ public class Catalogue {
                 listeRevetements.put(id, rev);
             }
 
-        } catch (IOException e) {System.out.println("erreur de lecture");}
+        } catch (IOException e) {
+            System.out.println("Erreur de lecture : " + e.getMessage());
+            System.out.println("Chemin absolu cherché : " + new java.io.File("catalogue.txt").getAbsolutePath());
+        }
     }
     
     public Revetement getRevetement(int id) {

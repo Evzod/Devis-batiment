@@ -3,7 +3,6 @@ package fr.insa.zoppi;
 import java.util.*;
 
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.layout.VBox;
 
@@ -11,10 +10,8 @@ public class Batiment extends ClasseGenerique{
     private String typeBatiment;
     ArrayList<Etage> etages;
     long prixTotal;
-    //TreeItem<Object> noeudParent;
 
     public Batiment(TreeItem<ClasseGenerique> noeudParent, String typeBatiment) {
-        //this.noeudParent = noeudParent;
         this.typeBatiment = typeBatiment;
         nom = "Nouveau bâtiment";
         etages = new ArrayList<Etage>();

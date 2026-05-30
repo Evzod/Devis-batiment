@@ -1,6 +1,8 @@
 package fr.insa.zoppi;
 
-public class Revetement {
+import java.io.Serializable;
+
+public class Revetement implements Serializable {
     private int id;
     private String nom;
     private boolean pourMur;
