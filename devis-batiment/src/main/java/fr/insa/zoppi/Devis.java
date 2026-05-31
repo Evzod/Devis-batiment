@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TreeItem;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -20,7 +19,6 @@ public class Devis extends ClasseGenerique{
         nom = "Devis bâtiment";
         catalogue = new Catalogue();
     }
-
 
     @Override
     public String toString() {
@@ -44,7 +42,7 @@ public class Devis extends ClasseGenerique{
 
 
         TextField fieldCharge = new TextField();
-        fieldCharge.setPromptText("Nom du fichier");
+        fieldCharge.setPromptText("Rentrez 'sauvegarde_devis' pour un exemple déjà enregistré");
         Button boutonCharge = App.creerBouton("Charger");
         boutonCharge.setOnAction(evt -> {
             App.chargerProjet(fieldCharge.getText());

@@ -42,6 +42,7 @@ public class Appartement extends ClasseGeometrique{
                 App.updateDessin(etage);
             });
         zoneFormulaire.getChildren().addAll(boutonPiece, boxCoordo, boxNom);
+        App.updateDessin(etage);
     }
 
     @Override

@@ -104,6 +104,8 @@ public class Piece extends ClasseGeometrique{
         VBox boxSol = App.creerCheckbox("Revêtement sur le sol ?", fieldRevetementSol, boutonRevetementSol);
 
         zoneFormulaire.getChildren().addAll(boxSol, checkPlafond, boxPlafond);
+
+        App.updateDessin(etage);
     }
 
     public VBox boxRevetementMur(int i) {

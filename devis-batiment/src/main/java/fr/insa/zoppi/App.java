@@ -222,7 +222,6 @@ public class App extends Application {
         Devis devisCharge;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(cheminFichier))) {
             devisCharge = (Devis) ois.readObject(); 
-            System.out.println("Devis chargé");
         } catch (Exception e) {
             System.err.println("Erreur lors du chargement : " + e.getMessage());
             return;

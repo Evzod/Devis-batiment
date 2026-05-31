@@ -23,12 +23,12 @@ public class Catalogue {
                 String[] colonnes = ligne.split(";");
 
                 int id = Integer.parseInt(colonnes[0]);
-                String designation = colonnes[1];
+                String nom = colonnes[1];
                 boolean pourMur = colonnes[2].equals("1");
                 boolean pourSol = colonnes[3].equals("1");
                 boolean pourPlafond = colonnes[4].equals("1");
                 double prix = Double.parseDouble(colonnes[5]);
-                Revetement rev = new Revetement(id, designation, pourMur, pourSol, pourPlafond, prix);
+                Revetement rev = new Revetement(id, nom, pourMur, pourSol, pourPlafond, prix);
                 listeRevetements.put(id, rev);
             }
 
