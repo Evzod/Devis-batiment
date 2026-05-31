@@ -10,4 +10,12 @@ public abstract class ClasseGenerique implements Serializable {
     transient TreeItem<ClasseGenerique> noeud;
 
     public abstract void formulaire(VBox zoneFormulaire);
+
+    public void setTreeItem(TreeItem<ClasseGenerique> noeud) {
+        this.noeud = noeud;
+    }
+
+    public TreeItem<ClasseGenerique> getTreeItem() {
+        return noeud;
+    }
 }

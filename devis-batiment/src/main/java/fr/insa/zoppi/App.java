@@ -132,8 +132,8 @@ public class App extends Application {
         Button boutonNom = new Button("Valider");
         boutonNom.setOnAction(evt -> {
             objet.nom = fieldNom.getText();
-            objet.noeud.setValue(null);
-            objet.noeud.setValue(objet);
+            objet.getTreeItem().setValue(null);
+            objet.getTreeItem().setValue(objet);
             App.initFormulaire(zoneFormulaire, objet);
             objet.formulaire(zoneFormulaire);
         });
@@ -219,12 +219,50 @@ public class App extends Application {
     }
     
     public static void chargerProjet(String cheminFichier) {
+        Devis devisCharge;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(cheminFichier))) {
-            Devis devis = (Devis) ois.readObject(); 
+            devisCharge = (Devis) ois.readObject(); 
+            System.out.println("Devis chargé");
         } catch (Exception e) {
             System.err.println("Erreur lors du chargement : " + e.getMessage());
             return;
-        }        
+        }
+        racineProjet.getChildren().clear();
+        racineProjet.setValue(devisCharge);
+        racineProjet.setExpanded(true);
+        devisCharge.setTreeItem(racineProjet);
+        for (Batiment batiment : devisCharge.batiments) {
+            TreeItem<ClasseGenerique> noeudBatiment = new TreeItem<>(batiment);
+            batiment.setTreeItem(noeudBatiment);
+            racineProjet.getChildren().add(noeudBatiment);
+            noeudBatiment.setExpanded(true);
+            for (Etage etage : batiment.etages) {
+                TreeItem<ClasseGenerique> noeudEtage = new TreeItem<>(etage);
+                etage.setTreeItem(noeudEtage);
+                noeudBatiment.getChildren().add(noeudEtage);
+                noeudEtage.setExpanded(true);
+                if (etage.apparts!=null) {
+                    for (Appartement appart : etage.apparts) {
+                        TreeItem<ClasseGenerique> noeudAppart = new TreeItem<>(appart);
+                        appart.setTreeItem(noeudAppart);
+                        noeudEtage.getChildren().add(noeudAppart);
+                        noeudAppart.setExpanded(true);
+                        for (Piece piece : appart.pieces) {
+                            TreeItem<ClasseGenerique> noeudPiece = new TreeItem<>(piece);
+                            piece.setTreeItem(noeudPiece);
+                            noeudAppart.getChildren().add(noeudPiece);
+                        }
+                    }
+                } else if (etage.pieces!=null) {
+                    for (Piece piece : etage.pieces) {
+                        TreeItem<ClasseGenerique> noeudPiece = new TreeItem<>(piece);
+                        piece.setTreeItem(noeudPiece);
+                        noeudEtage.getChildren().add(noeudPiece);
+                    }
+                } 
+            }
+        }
+        devis = devisCharge;
     }
     
 }

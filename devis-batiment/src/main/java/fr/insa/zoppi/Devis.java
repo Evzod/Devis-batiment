@@ -10,7 +10,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class Devis extends ClasseGenerique{
-    static ArrayList<Batiment> batiments;
+    ArrayList<Batiment> batiments;
     long prixDevis;
     private static Catalogue catalogue;
 
@@ -21,9 +21,6 @@ public class Devis extends ClasseGenerique{
         catalogue = new Catalogue();
     }
 
-    public void setTreeItem(TreeItem<ClasseGenerique> noeud) {
-        this.noeud = noeud;
-    }
 
     @Override
     public String toString() {
@@ -62,7 +59,7 @@ public class Devis extends ClasseGenerique{
             labelPrix.setText(Double.toString(this.calculPrix()));
         });
 
-        zoneFormulaire.getChildren().addAll(boutonImmeuble, boutonMaison, boutonSauvegarde, boutonCharge, boutonPrix, new Label("Prix total : "), boxPrix);
+        zoneFormulaire.getChildren().addAll(boutonImmeuble, boutonMaison, boutonSauvegarde, boxCharge, boutonCharge, boutonPrix, new Label("Prix total : "), boxPrix);
     }
 
     private double calculPrix() {
