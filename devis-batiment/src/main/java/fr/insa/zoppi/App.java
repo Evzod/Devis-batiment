@@ -34,7 +34,6 @@ public class App extends Application {
     public static double coeffDessin = 10;
     private static Etage etagePrecedent;
     private static TreeItem<ClasseGenerique> racineProjet;
-    private static TreeView<ClasseGenerique> arbre;
 
     public static void main(String[] args) {
         launch(args);
@@ -46,7 +45,7 @@ public class App extends Application {
         racineProjet = new TreeItem<>(devis);
         devis.setTreeItem(racineProjet);
         racineProjet.setExpanded(true);
-        arbre = new TreeView<>(racineProjet);
+        TreeView<ClasseGenerique> arbre = new TreeView<>(racineProjet);
         arbre.setStyle("-fx-font-size: 13px");
 
         zoneFormulaire = new VBox(25);
