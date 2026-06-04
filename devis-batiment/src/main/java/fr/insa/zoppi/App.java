@@ -46,6 +46,7 @@ public class App extends Application {
         racineProjet.setExpanded(true);
         TreeView<ClasseGenerique> arbre = new TreeView<>(racineProjet);
         arbre.setStyle("-fx-font-size: 13px");
+        VBox.setVgrow(arbre, Priority.ALWAYS);
 
         zoneFormulaire = new VBox(25);
         zoneFormulaire.setPadding(new Insets(10));
@@ -59,7 +60,6 @@ public class App extends Application {
 
         VBox menuGauche = new VBox(espacementVBox);
         menuGauche.setPadding(new Insets(10));
-        VBox.setVgrow(arbre, Priority.ALWAYS);
 
         ScrollPane scrollFormulaire = new ScrollPane(zoneFormulaire);
         scrollFormulaire.setFitToWidth(true);
@@ -78,7 +78,6 @@ public class App extends Application {
         stage.setTitle("Devis-Bâtiment");
         stage.setMaximized(true);
         stage.show();
-
     }
 
     public void afficherFormulaire(ClasseGenerique objet) {
@@ -127,7 +126,7 @@ public class App extends Application {
 
     public static VBox creerNom(ClasseGenerique objet, VBox zoneFormulaire) {
         TextField fieldNom = new TextField(objet.nom);
-        Button boutonNom = new Button("Valider");
+        Button boutonNom = App.creerBouton("Valider");
         boutonNom.setOnAction(evt -> {
             objet.nom = fieldNom.getText();
             objet.getTreeItem().setValue(null);
@@ -137,7 +136,6 @@ public class App extends Application {
         });
         return App.creerQuestion("Nom de l'élément", fieldNom, boutonNom);
     }
-
 
     public static VBox creerCoordo(ClasseGeometrique objet, VBox zoneFormulaire) {
         TextField fieldX1 = new TextField(Double.toString(objet.x1));
@@ -193,9 +191,7 @@ public class App extends Application {
             for (Piece piece : etage.pieces) {
                 piece.dessiner(zoneDessin);
             }
-        } else {
-            System.out.println("pas bon");
-        }
+        } 
         etage.dessiner(zoneDessin);
     }
 
