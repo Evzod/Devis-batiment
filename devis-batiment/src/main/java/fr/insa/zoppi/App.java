@@ -1,8 +1,7 @@
 package fr.insa.zoppi;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.FileOutputStream;    
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import javafx.application.Application;
@@ -212,7 +211,7 @@ public class App extends Application {
     public static void sauvegarderProjet(Devis devis, String cheminFichier) {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(cheminFichier))) {
             oos.writeObject(devis); 
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.err.println("Erreur lors de la sauvegarde : " + e.getMessage());
         }
     }
